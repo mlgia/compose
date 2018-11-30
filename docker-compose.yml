@@ -1,0 +1,58 @@
+version: '2.3'
+services:
+  mlgia-ui:
+    restart: always
+    image: mlgia/mlgia-ui:latest
+    container_name: mlgia-ui
+    networks:
+      - network-mlgia
+    ports:
+      - 8080:8080
+
+  mlgia-speech-to-text:
+    restart: always
+    image: mlgia/mlgia-speech-to-text:latest
+    container_name: mlgia-speech-to-text
+    networks:
+      - network-mlgia
+    ports:
+      - 8081:8081
+
+  mlgia-text-to-speech:
+    restart: always
+    image: mlgia/mlgia-text-to-speech:latest
+    container_name: mlgia-text-to-speech
+    networks:
+      - network-mlgia
+    ports:
+      - 8082:8082
+
+  mlgia-assistant:
+    restart: always
+    image: mlgia/mlgia-assistant:latest
+    container_name: mlgia-assistant
+    networks:
+      - network-mlgia
+    ports:
+      - 8083:8083
+
+  mlgia-collector-service:
+    restart: always
+    image: mlgia/mlgia-collector-service:latest
+    container_name: mlgia-collector-service
+    ports:
+      - 8084:8084
+    networks:
+      - network-mlgia
+
+  mlgia-prediction-service:
+    restart: always
+    image: mlgia/mlgia-prediction-service:latest
+    container_name: mlgia-prediction-service
+    ports:
+      - 8085:8085
+    networks:
+      - network-mlgia
+
+networks:
+  network-mlgia:

@@ -12,3 +12,15 @@
 ### Install
 
 ### Use
+
+Start all
+```bash
+export COMPOSE_TLS_VERSION=TLSv1_2
+docker-compose up -d
+```
+
+Stop all
+```bash
+docker-compose down
+```
+

@@ -52,15 +52,24 @@ services:
       - ASSISTANT_ID=${ASSISTANT_ID}
       - URL_PREDICTION=http://mlgia-prediction-service:8085/prediction
 
-  #mlgia-collector-service:
-  #  restart: always
-  #  image: mlgia/mlgia-collector-service:latest
-  #  container_name: mlgia-collector-service
-  #  ports:
-  #    - 8084:8084
-  #  networks:
-  #    - network-mlgia
-
+  mlgia-collector-service:
+    restart: always
+    image: mlgia/mlgia-collector-service:latest
+    container_name: mlgia-collector-service
+    ports:
+      - 8084:8084
+    networks:
+      - network-mlgia
+    environment:
+      - DATASET_PATH_IN=/tmp/in/
+      - DATASET_PATH_OUT=/tmp/out/
+      - CLOUD_STORAGE_ENDPOINT
+      - CLOUD_STORAGE_IN_BUCKET
+      - CLOUD_STORAGE_APIKEY
+      - CLOUD_STORAGE_INSTANCE_ID
+      - CLOUD_STORAGE_IAM_ENDPOINT
+      - CLOUD_STORAGE_LOCATION
+      
   mlgia-prediction-service:
     restart: always
     image: mlgia/mlgia-prediction-service:latest

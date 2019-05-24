@@ -8,6 +8,12 @@ services:
       - network-mlgia
     ports:
       - 8080:8080
+    environment:
+      - URL_ASSISTANT=http://mlgia-assistant:8083/assistant
+      - URL_TEXT_TO_SPEECH=http://mlgia-text-to-speech:8082/audio
+      - URL_SPEECH_TO_TEXT=http://mlgia-speech-to-text:8081/converterbyte
+      - FOLDER_TMP=/tmp
+      - LEVEL=ERROR
 
   mlgia-speech-to-text:
     restart: always
@@ -17,6 +23,9 @@ services:
       - network-mlgia
     ports:
       - 8081:8081
+    environment:
+      - LEVEL=ERROR
+      - SPEECH_TO_TEXT_APIKEY=${SPEECH_TO_TEXT_APIKEY}
 
   mlgia-text-to-speech:
     restart: always
@@ -26,6 +35,9 @@ services:
       - network-mlgia
     ports:
       - 8082:8082
+    environment:
+      - LEVEL=ERROR
+      - TEXT_TO_SPEECH_APIKEY=${TEXT_TO_SPEECH_APIKEY}
 
   mlgia-assistant:
     restart: always
@@ -35,15 +47,19 @@ services:
       - network-mlgia
     ports:
       - 8083:8083
+    environment:
+      - ASSISTANT_APIKEY=${ASSISTANT_APIKEY}
+      - ASSISTANT_ID=${ASSISTANT_ID}
+      - URL_PREDICTION=http://mlgia-prediction-service:8085/prediction
 
-  mlgia-collector-service:
-    restart: always
-    image: mlgia/mlgia-collector-service:latest
-    container_name: mlgia-collector-service
-    ports:
-      - 8084:8084
-    networks:
-      - network-mlgia
+  #mlgia-collector-service:
+  #  restart: always
+  #  image: mlgia/mlgia-collector-service:latest
+  #  container_name: mlgia-collector-service
+  #  ports:
+  #    - 8084:8084
+  #  networks:
+  #    - network-mlgia
 
   mlgia-prediction-service:
     restart: always
@@ -53,6 +69,8 @@ services:
       - 8085:8085
     networks:
       - network-mlgia
+    environment:
+      - DEBUG=False
 
 networks:
   network-mlgia:
